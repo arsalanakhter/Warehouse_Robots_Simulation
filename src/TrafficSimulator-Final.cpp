@@ -145,64 +145,76 @@ void createTrafficObjects_Warehouse(std::vector<std::shared_ptr<Street>> &street
 
     streets.at(0)->setInIntersection(intersections.at(0));
     streets.at(0)->setOutIntersection(intersections.at(1));
+    streets.at(0)->setStreetID(0);
 
     streets.at(1)->setInIntersection(intersections.at(1));
     streets.at(1)->setOutIntersection(intersections.at(2));
+    streets.at(1)->setStreetID(1);
 
     streets.at(2)->setInIntersection(intersections.at(2));
     streets.at(2)->setOutIntersection(intersections.at(3));
-
+    streets.at(2)->setStreetID(2);
 
 
     streets.at(3)->setInIntersection(intersections.at(4));
     streets.at(3)->setOutIntersection(intersections.at(0));
+    streets.at(3)->setStreetID(3);
 
     streets.at(4)->setInIntersection(intersections.at(5));
     streets.at(4)->setOutIntersection(intersections.at(1));
+    streets.at(4)->setStreetID(4);
 
     streets.at(5)->setInIntersection(intersections.at(6));
     streets.at(5)->setOutIntersection(intersections.at(2));
+    streets.at(5)->setStreetID(5);
 
     streets.at(6)->setInIntersection(intersections.at(7));
     streets.at(6)->setOutIntersection(intersections.at(3));
-
+    streets.at(6)->setStreetID(6);
 
 
     streets.at(7)->setInIntersection(intersections.at(4));
     streets.at(7)->setOutIntersection(intersections.at(5));
+    streets.at(7)->setStreetID(7);
 
     streets.at(8)->setInIntersection(intersections.at(5));
     streets.at(8)->setOutIntersection(intersections.at(6));
+    streets.at(8)->setStreetID(8);
 
     streets.at(9)->setInIntersection(intersections.at(6));
     streets.at(9)->setOutIntersection(intersections.at(7));
-
+    streets.at(9)->setStreetID(9);
 
 
     streets.at(10)->setInIntersection(intersections.at(8));
     streets.at(10)->setOutIntersection(intersections.at(4));
+    streets.at(10)->setStreetID(10);
 
     streets.at(11)->setInIntersection(intersections.at(9));
     streets.at(11)->setOutIntersection(intersections.at(5));
+    streets.at(11)->setStreetID(11);
 
     streets.at(12)->setInIntersection(intersections.at(10));
     streets.at(12)->setOutIntersection(intersections.at(6));
+    streets.at(12)->setStreetID(12);
 
     streets.at(13)->setInIntersection(intersections.at(11));
     streets.at(13)->setOutIntersection(intersections.at(7));
-
+    streets.at(13)->setStreetID(13);
 
 
 
     streets.at(14)->setInIntersection(intersections.at(8));
     streets.at(14)->setOutIntersection(intersections.at(9));
+    streets.at(14)->setStreetID(14);
 
     streets.at(15)->setInIntersection(intersections.at(9));
     streets.at(15)->setOutIntersection(intersections.at(10));
+    streets.at(15)->setStreetID(15);
 
     streets.at(16)->setInIntersection(intersections.at(10));
     streets.at(16)->setOutIntersection(intersections.at(11));
-
+    streets.at(16)->setStreetID(16);
 
 
 
@@ -225,7 +237,7 @@ int main()
     std::vector<std::shared_ptr<Intersection>> intersections;
     std::vector<std::shared_ptr<Vehicle>> vehicles;
     std::string backgroundImg;
-    int nVehicles = 12;
+    int nVehicles = 1;
     createTrafficObjects_Warehouse(streets, intersections, vehicles, backgroundImg, nVehicles);
 
     /* PART 2 : simulate traffic objects */

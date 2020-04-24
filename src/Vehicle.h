@@ -31,6 +31,9 @@ private:
     std::shared_ptr<Intersection> _currDestination; // destination to which the vehicle is currently driving
     double _posStreet;                              // position on current street
     double _speed;                                  // ego speed in m/s
+    // Introduce two more items
+    int _dropOffStreet;                             // target street to drop off.
+    int _wareHouseLastStreetID;                      // Where every Drop-off should occur 
 };
 
 #endif

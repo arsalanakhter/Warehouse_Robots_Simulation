@@ -2,7 +2,7 @@
 
 <img src="data/warehouse_layout.jpeg"/>
 
-This is the final project for the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The project builds upon the Traffic Simulation Project in the Concurrency module of the nano-degree program. The project simulates robots in a warehouse setting where the robots have to go from one location to the other in the warehouse. They have to wait at the intersections so that only one robot passes through the intersection at a time. They also have to respect a traffic light at the intersection before entering the intersection.
+This is the final project for the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The project builds upon the Traffic Simulation Project in the Concurrency module of the nano-degree program. The project simulates robots in a warehouse setting where the robots have to go from one location to the other in the warehouse. They have to wait at the intersections so that only one robot passes through the intersection at a time. They also have to respect a traffic light at the intersection before entering the intersection. The vehicles also attempt to reach a destination location to pick up things in the warehouse in the shortest possible manner by looking at the current available streets. Once they reach a destination  location, they come back to lower left corner (Street 16) for Drop-Off. This part of the code is in class Vehicle from line 100 - 180.
 
 ## Dependencies for Running Locally
 * cmake >= 3.10.2

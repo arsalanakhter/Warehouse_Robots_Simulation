@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <algorithm>
 #include "Street.h"
 #include "Intersection.h"
 #include "Vehicle.h"
@@ -10,6 +11,9 @@ Vehicle::Vehicle()
     _posStreet = 0.0;
     _type = ObjectType::objectVehicle;
     _speed = 400; // m/s
+    _wareHouseLastStreetID = 16;
+    // Initalize vehilce by sending it to drop off location
+    _dropOffStreet = _wareHouseLastStreetID;
 }
 
 
@@ -86,12 +90,98 @@ void Vehicle::drive()
                 _speed /= 10.0;
                 hasEnteredIntersection = true;
             }
+            // choose next street and destination
+            std::vector<std::shared_ptr<Street>> streetOptions = _currDestination->queryStreets(_currStreet);
+            std::shared_ptr<Street> nextStreet = _currStreet;
 
             // check wether intersection has been crossed
             if (completion >= 1.0 && hasEnteredIntersection)
             {
-                // choose next street and destination
-                std::vector<std::shared_ptr<Street>> streetOptions = _currDestination->queryStreets(_currStreet);
+                // Also identify the biggest and smallest street Id avaialable.
+                int maxStreetIDAvailable = -1;
+                int minStreetIDAvailable = _wareHouseLastStreetID + 1;
+                std::vector<int> allAvailableStreetIDs;
+                for (auto s : streetOptions )
+                {
+                    allAvailableStreetIDs.push_back(s->getStreetID());
+                    if (s->getStreetID() > maxStreetIDAvailable)
+                    {
+                        maxStreetIDAvailable = s->getStreetID();
+                    }
+                    if (s->getStreetID() < minStreetIDAvailable)
+                    {
+                        minStreetIDAvailable = s->getStreetID();
+                    }
+                }
+                // if not yet reached at the _dropOffStreet
+                if(_currStreet->getStreetID() != _dropOffStreet)
+                {
+                    // Check if we are going to the _wareHouseLastStreet.
+                    if (_dropOffStreet == _wareHouseLastStreetID)
+                    {
+                        // Find the ID in streetOptions where the required street ID is
+                        for (auto s : streetOptions)
+                        {
+                            if(s->getStreetID() == maxStreetIDAvailable)
+                            {
+                                // Go to that street
+                                nextStreet = s; 
+                                std::cout << "Vehicle " << _id << " going to street " << _dropOffStreet << " through street " << nextStreet->getStreetID() << ".\n";
+                            }
+                        }
+                    }
+                    else    // If are going to a random street
+                    {
+                        // Pick smallest street ID as long as picked street ID is greater 
+                        // than or eqaul to dropoff street - 1, else pick the next larger street.
+                        if (minStreetIDAvailable >= _dropOffStreet-1)
+                        {
+                            // Find the ID in streetOptions where the required street ID is
+                            for (auto s : streetOptions)
+                            {
+                                if(s->getStreetID() == minStreetIDAvailable)
+                                {
+                                    // Go to that street
+                                    nextStreet = s; 
+                                std::cout << "Vehicle " << _id << " going to street " << _dropOffStreet << " through street " << nextStreet->getStreetID() << ".\n";
+                                }
+                            }
+                        }
+                        else 
+                        {
+                            // Find the ID in streetOptions where the required street ID is
+                            for (auto s : streetOptions)
+                            {
+                                if(s->getStreetID() == allAvailableStreetIDs[1])
+                                {
+                                    // Go to that street
+                                    nextStreet = s; 
+                                std::cout << "Vehicle " << _id << " going to street " << _dropOffStreet << " through street " << nextStreet->getStreetID() << ".\n";
+                                }
+                            }
+                        }
+                    }
+                }
+                else 
+                {
+                    std::cout << "Vehicle " << _id << " has arrived at street " << _dropOffStreet << " which was its destination. \n";
+                    // assign new drop-off location
+                    if (_currStreet->getStreetID() != _wareHouseLastStreetID)
+                    {    // means we are not at the _wareHouseLastStreetID
+                        _dropOffStreet = _wareHouseLastStreetID;
+                        std::cout << "Vehicle " << _id << " now going to street " << _dropOffStreet << " which is its new destination. \n";
+                    }
+                    else 
+                    {   // means we are at the _wareHouseLastStreetID
+                        // assign a new street randomly
+                        std::random_device rd;
+                        std::mt19937 eng(rd());
+                        std::uniform_int_distribution<> distr(0, _wareHouseLastStreetID-1);
+                        _dropOffStreet = distr(eng);
+                    }
+                }
+                //std::vector<std::shared_ptr<Street>> streetOptions = _currDestination->queryStreets(_currStreet);
+                /*
                 std::shared_ptr<Street> nextStreet;
                 if (streetOptions.size() > 0)
                 {
@@ -106,7 +196,7 @@ void Vehicle::drive()
                     // this street is a dead-end, so drive back the same way
                     nextStreet = _currStreet;
                 }
-                
+                */
                 // pick the one intersection at which the vehicle is currently not
                 std::shared_ptr<Intersection> nextIntersection = nextStreet->getInIntersection()->getID() == _currDestination->getID() ? nextStreet->getOutIntersection() : nextStreet->getInIntersection(); 
 
